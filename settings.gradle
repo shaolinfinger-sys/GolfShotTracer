@@ -13,4 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "GolfShotTracer"
-include(":app")
+
+// Create directory if missing (Gradle 9+ requirement)
+project(':app').projectDir.mkdirs()
+include ':app'
