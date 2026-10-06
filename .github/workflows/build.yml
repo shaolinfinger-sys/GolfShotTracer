@@ -19,12 +19,31 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build APK with Gradle
+      - name: Setup Gradle Wrapper
         run: |
-          # Direct download of official Gradle 8.5
-          wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
-          unzip -q gradle-8.5-bin.zip
-          ./gradle-8.5/bin/gradle assembleDebug --stacktrace
+          mkdir -p gradle/wrapper
+          echo "distributionBase=GRADLE_USER_HOME" > gradle/wrapper/gradle-wrapper.properties
+          echo "distributionPath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+          echo "distributionUrl=https\://services.gradle.org/distributions/gradle-8.5-bin.zip" >> gradle/wrapper/gradle-wrapper.properties
+          echo "zipStoreBase=GRADLE_USER_HOME" >> gradle/wrapper/gradle-wrapper.properties
+          echo "zipStorePath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+          
+          # Download gradle-wrapper.jar directly
+          wget -q -O gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
+          
+          # Create minimal gradlew script
+          cat > gradlew << 'EOF'
+#!/bin/sh
+APP_HOME=$( cd "$( dirname "$0" )" && pwd )
+JAVA_EXEC=${JAVA_HOME:-/usr}/bin/java
+exec "$JAVA_EXEC" -Xmx64m -Xms64m -classpath "$APP_HOME/gradle/wrapper/gradle-wrapper.jar" \
+    "-Dorg.gradle.appname=$(basename "$0")" \
+    org.gradle.wrapper.GradleWrapperMain "$@"
+EOF
+          chmod +x gradlew
+
+      - name: Build APK
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
