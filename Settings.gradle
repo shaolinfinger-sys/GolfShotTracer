@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "GolfShotTracer"
-include(":app")
+include ':app'
