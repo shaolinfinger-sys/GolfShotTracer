@@ -1,1 +1,1 @@
-# Forethe Fairway
+# Fore the Fairway
