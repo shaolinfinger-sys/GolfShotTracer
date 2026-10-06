@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build Golf Shot Tracer APK
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # ✅ Pinned — avoids Ubuntu 26.04 migration issues
 
     steps:
       - name: Checkout code
@@ -22,11 +22,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Build APK using system Gradle
+        run: gradle assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
