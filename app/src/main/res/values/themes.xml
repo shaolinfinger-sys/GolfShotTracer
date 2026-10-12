@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.GolfShotTracer" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/black</item>
-        <item name="android:windowBackground">@color/black</item>
-    </style>
-</resources>
+<style name="SplashTheme" parent="Theme.Material3.DayNight.NoActionBar">
+    <item name="android:windowBackground">#1a73e8</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+</style>
